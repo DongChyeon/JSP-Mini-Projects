@@ -4,6 +4,18 @@ import java.io.Serializable;
 
 public class Product implements Serializable {
 	
+private static final long serialVersionID = -4274700572038677000L;
+	
+	private String productId;	// 상품 아이디
+	private String pname;	// 상품 이름
+	private Integer unitPrice;	// 상품 가격
+	private String description;	// 상품 설명
+	private String manufacturer;	// 제조사
+	private String category;	// 분류
+	private long unitsInStock;	// 재고 수
+	private String condition;	// 신상품 or 중고품 or 재생품
+	private String filename;	// 이미지 파일명
+	
 	public Product() {
 		super();
 	}
@@ -77,15 +89,13 @@ public class Product implements Serializable {
 	public void setUnitPrice(Integer unitPrice) {
 		this.unitPrice = unitPrice;
 	}
-
-	private static final long serialVersionID = -4274700572038677000L;
 	
-	private String productId;	// 상품 아이디
-	private String pname;	// 상품 이름
-	private Integer unitPrice;	// 상품 가격
-	private String description;	// 상품 설명
-	private String manufacturer;	// 제조사
-	private String category;	// 분류
-	private long unitsInStock;	// 재고 수
-	private String condition;	// 신상품 or 중고품 or 재생품
+	public String getFilename() {
+		return filename;
+	}
+
+	public void setFilename(String filename) {
+		this.filename = filename;
+	}
+
 }
