@@ -1,7 +1,7 @@
 package dao;
 
 import java.util.ArrayList;
-
+import java.sql.*;
 import dto.Product;
 
 public class ProductRepository {
@@ -9,34 +9,77 @@ public class ProductRepository {
 	private ArrayList<Product> listOfProducts = new ArrayList<Product>();
 	private static ProductRepository instance = new ProductRepository();
 	
+	
 	public ProductRepository() {
-		Product phone = new Product("P1234", "iPhone 6s", 800000);
-		phone.setDescription("4.7-inch, 1334x750 Retina HD display. 8-megapixel iSight Camera");
-		phone.setCategory("Smart Phone");
-		phone.setManufacturer("Apple");
-		phone.setUnitsInStock(1000);
-		phone.setCondition("New");
-		phone.setFilename("P1234.jpg");
+		Connection conn = null;
+
+		try {
+			String url = "jdbc:mysql://localhost:3306/WebMarketDB";
+			String user = "root";
+			String password = "Youare2485!";
+			
+			Class.forName("com.mysql.jdbc.Driver");
+			conn = DriverManager.getConnection(url, user, password);
+		} catch (SQLException ex) {
+			System.out.println("데이터베이스 연결이 실패했습니다.\n");
+			System.out.println("SQLException : " + ex.getMessage());
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
 		
-		Product notebook = new Product("P1235", "LG PC 그램", 1500000);
-		notebook.setDescription("13.3-inch, IPS LED display, 5rd Generation Intel Core processors");
-		notebook.setCategory("Notebook");
-		notebook.setManufacturer("LG");
-		notebook.setUnitsInStock(1000);
-		notebook.setCondition("Refurbished");
-		notebook.setFilename("P1235.jpg");
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = "SELECT * FROM product";
+		try {
+			pstmt = conn.prepareStatement(sql);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			rs = pstmt.executeQuery();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		
-		Product tablet = new Product("P1236", "Galaxy Tab S", 900000);
-		tablet.setDescription("212*125.6*6.6mm, Super AMOLED display, Octa-Core processor");
-		tablet.setCategory("Tablet");
-		tablet.setManufacturer("Samsung");
-		tablet.setUnitsInStock(1000);
-		tablet.setCondition("Old");
-		tablet.setFilename("P1236.jpg");
+		Product product = null;
 		
-		listOfProducts.add(phone);
-		listOfProducts.add(notebook);
-		listOfProducts.add(tablet);
+		try {
+			while(rs.next()) {
+				product = new Product(rs.getString("p_id"), rs.getString("p_name"), rs.getInt("p_unitPrice"));
+				product.setDescription(rs.getString("p_description"));
+				product.setCategory(rs.getString("p_category"));
+				product.setManufacturer(rs.getString("p_manufacturer"));
+				product.setUnitsInStock(rs.getLong("p_unitsInStock"));
+				product.setCondition(rs.getString("p_condition"));
+				product.setFilename(rs.getString("p_fileName"));
+				
+				listOfProducts.add(product);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		if (rs != null) {
+			try {
+				rs.close();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		}
+		if (pstmt != null) {
+			try {
+				pstmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		if (conn != null) {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	public ArrayList<Product> getAllProducts() {
