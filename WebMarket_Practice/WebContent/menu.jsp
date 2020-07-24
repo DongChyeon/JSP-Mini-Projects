@@ -21,10 +21,10 @@
 						<li class="nav-item"><a class="nav-link" href="<c:url value="/member/updateMember.jsp"/>">회원 수정</a></li>
 					</c:otherwise>
 				</c:choose>
-				<li class="nav-item"><a class="nav-link" href="./products.jsp">상품 목록</a></li>
-				<li class="nav-item"><a class="nav-link" href="./addProduct.jsp">상품 등록</a></li>
-				<li class="nav-item"><a class="nav-link" href="./editProduct.jsp?edit=update">상품 수정</a></li>
-				<li class="nav-item"><a class="nav-link" href="./editProduct.jsp?edit=delete">상품 삭제</a></li>
+				<li class="nav-item"><a class="nav-link" href="../../WebMarket_Practice/products.jsp">상품 목록</a></li>
+				<li class="nav-item"><a class="nav-link" href="../../WebMarket_Practice/addProduct.jsp">상품 등록</a></li>
+				<li class="nav-item"><a class="nav-link" href="../../WebMarket_Practice/editProduct.jsp?edit=update">상품 수정</a></li>
+				<li class="nav-item"><a class="nav-link" href="../../WebMarket_Practice/editProduct.jsp?edit=delete">상품 삭제</a></li>
 			</ul>
 		</div>		
 	</div>
